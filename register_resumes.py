@@ -1,14 +1,7 @@
-resumes = [   
-]
+resumes = []
 
 def register_resumes():
-    print('DATOS PERSONALES\n')
-    fullname = input('Nombre Completo: ')
-    id = ask_number_int_positive('ID: ')
-    cel = ask_number_int_positive("Celular: ")
-    email = input('Correo Electronico: ')
-    birthdate = input("Fecha de nacimiento: ")
-    
+    fullname, id, cel, email, birthdate = add_personal_info()
     academic_education=ask_academic_training()
     profesional_experience = ask_professional_experience()
     personal_references = ask_personal_references()
@@ -16,7 +9,7 @@ def register_resumes():
     skills = ask_skills()
     additional_certificates = ask_additional_certificates()
     
-    id = {
+    dictionary = {
         'personal_information':{'fullname': fullname,
         'id': id,
         'cel': cel,
@@ -31,26 +24,33 @@ def register_resumes():
         
     }
     
-    resumes.append(id)
+    resumes.append(dictionary)
+
+def add_personal_info():
+    print('DATOS PERSONALES\n')
+    fullname = add_full_name
+    id = ask_number_int_positive('ID: ')
+    cel = ask_number_int_positive("Celular: ")
+    email = add_email()
+    birthdate = input("Fecha de nacimiento: ").strip()
+    return fullname,id,cel,email,birthdate
     
     
 def ask_academic_training():
     print('FORMACION ACADEMICA\n')
-    academic_title = input("Titulo academico: ")
-    institution = input("Institucion: ")
+    academic_title = input("Titulo academico: ").strip()
+    institution = input("Institucion: ").strip()
     time = ask_number_int_positive("Meses en la institucion: ")
     
     academic_education = (academic_title, institution, time)
     
     return academic_education
     
-        
-
 def ask_professional_experience():
     print('EXPERIENCIA PROFESIONAL\n')
-    company = input("Empresa: ")
-    position = input("Cargo: ")
-    functions = input("Funciones en la empresa: ")
+    company = input("Empresa: ").strip().title()
+    position = input("Cargo: ").strip().title()
+    functions = input("Funciones en la empresa: ").strip()
     time = ask_number_int_positive("Duracion(En meses): ")
     
     profesional_experience = (company, position, functions, time)
@@ -59,8 +59,8 @@ def ask_professional_experience():
     
 def ask_personal_references():
     print('REFERENCIAS PERSONALES\n')
-    fullname = input("Nombre completo de persona referencia: ")
-    relationship = input("Relacion: ")
+    fullname = add_full_name
+    relationship = input("Relacion: ").strip().title()
     cel = ask_number_int_positive("Celular: ")
     
     personal_references = {
@@ -74,29 +74,45 @@ def ask_personal_references():
     
 def ask_professional_references():
     print('REFERENCIAS PROFESIONALES\n')
-    name_company = input("Nombre Empresa: ")
+    name_company = input("Nombre Empresa: ").strip().title
     cel = ask_number_int_positive("Celular: ")
-    email = input("Correo electronico: ")
-    
+    email = add_email()  
+
     profesional_references = {
         'name_company': name_company,
         'cel': cel,    
         'email': email
     }
-    
+    print (email)
     return profesional_references
-    
+
+def add_email():
+    while True:
+        email = input("Correo electronico: ").strip().lower()
+        if any(caracter.isspace() for caracter in email):
+            print("Error: El texto contiene espacios en blanco.")
+        else: 
+            return email
 
 def ask_skills():
     print('HABILIDADES \n')
-    skills = input("Habilidades o otros certificados: ")
+    skills = input("Habilidades o otros certificados: ").strip()
     return skills
     
 def ask_additional_certificates():
     print('CERTIFICADOS ADICIONALES\n')
-    additional_certificates = input("Habilidades o otros certificados: ")
+    additional_certificates = input("Habilidades o otros certificados: ").strip()
     return additional_certificates
+
+def add_full_name():
+    while True:
+        nombre = input("Nombre: ").strip().title()
+        if nombre.isalpha():
+            return nombre 
+        else:
+            print("Error: El nombre debe contener solo letras.")
     
+
 def ask_number_float_positive(prompt):
     while(True):
         try:
@@ -118,12 +134,8 @@ def ask_number_int_positive(prompt):
                 print("\n||El numero no es positivo|| \n")
         except ValueError:
             print("\n||Ingresa un dato valido|| \n")
+ask_professional_references()
+print (resumes)
 
-def print_row(a, b, c):
-    print('{:<12}  {:<12}  {:<12}'.format(a, b, c) )
     
-register_resumes()
-print()
-print(resumes)
     
-print("HEllo")
