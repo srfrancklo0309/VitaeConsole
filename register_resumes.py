@@ -9,7 +9,7 @@ def register_resumes():
     skills = ask_skills()
     additional_certificates = ask_additional_certificates()
     
-    dictionary = {
+    id = {
         'personal_information':{'fullname': fullname,
         'id': id,
         'cel': cel,
@@ -24,7 +24,7 @@ def register_resumes():
         
     }
     
-    return dictionary
+    return id
 
 def add_personal_info():
     print('DATOS PERSONALES\n')
